@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+    
+    <title>利用github搭建图床 - Hexo</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="利用github搭建图床一、前期准备 （1）所需软件：node.js、PicGo、typora。（2）一个github账号。  二、图床的概念1、什么是图床 图床是互联网中存储图片的空间。举个例子：假设你在微博分享一张图片，你的粉丝可以通过互联网看到你分享的图片，那么他是去访问你的手机的相册吗？其实不是的，你分享图片，也就是把图片上传到微博的服务器，微博将为你生成一个独一无二的访问链接，这个链接指">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用github搭建图床">
+<meta property="og:url" content="http://example.com/2023/07/30/%E5%88%A9%E7%94%A8github%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="利用github搭建图床一、前期准备 （1）所需软件：node.js、PicGo、typora。（2）一个github账号。  二、图床的概念1、什么是图床 图床是互联网中存储图片的空间。举个例子：假设你在微博分享一张图片，你的粉丝可以通过互联网看到你分享的图片，那么他是去访问你的手机的相册吗？其实不是的，你分享图片，也就是把图片上传到微博的服务器，微博将为你生成一个独一无二的访问链接，这个链接指">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301357651.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301357375.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301358687.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301359345.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301359043.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301359640.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301405070.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301406231.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301426837.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301407712.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301408839.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301408075.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301408549.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301410804.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301410010.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301411096.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301411588.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301411891.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301412248.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301417916.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301428574.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301419810.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301419581.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301419168.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301420812.png">
+<meta property="article:published_time" content="2023-07-30T05:47:02.000Z">
+<meta property="article:modified_time" content="2023-07-30T06:52:53.922Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301357651.png">
+    
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1690700022226">
+    
+    <link rel="stylesheet" href="/css/style.css?v=1690700022226">
+
+    
+        
+            <link rel="stylesheet" href="/custom.css?v=1690700022226">
+        
+    
+
+    
+<script src="/lib/mdui_043tiny/mdui.js" async></script>
+<script src="/lib/fancybox/fancybox.umd.js" async></script>
+
+
+    <script async src="/js/app.js?v=1690700022226"></script>
+    
+     
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4D4ZJ9G024"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+
+  gtag("config", "G-4D4ZJ9G024");
+</script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="mdui-drawer-body-left">
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" 
+            style="background-image: url(https://i.dawnlab.me/b5a7e61560facdd5b8aa9683fce147d7.png)"
+        ></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="John Doe" class="mdui-btn mdui-btn-icon"><img src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307291512299.png" alt="John Doe"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="John Doe">
+            <img src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307291512299.png" alt="John Doe" alt="John Doe">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>文章</span>3</div>
+        <div><span>标签</span>0</div>
+        <div><span>分类</span>0</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/archive.html" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/donate.html" title="给我赞助">
+            <i class="mdui-list-item-icon nexmoefont icon-coffee"></i>
+            <div class="mdui-list-item-content">
+                给我赞助
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about.html" title="关于博主">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博主
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+        
+            
+            <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="搜索"></label>
+            </form>
+         
+    </div>
+</div>
+
+
+
+
+        
+            
+            <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
+			target="_blank"
+			mdui-tooltip="{content: 'QQ群'}"
+			style="
+				color: rgb(249, 174, 8);
+				background-color: rgba(249, 174, 8, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-QQ"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://space.bilibili.com/20238211"
+			target="_blank"
+			mdui-tooltip="{content: '哔哩哔哩'}"
+			style="
+				color: rgb(231, 106, 141);
+				background-color: rgba(231, 106, 141, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-bilibili"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://github.com/nexmoe/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://www.zhihu.com/people/nexmoe"
+			target="_blank"
+			mdui-tooltip="{content: '知乎'}"
+			style="
+				color: rgb(30, 136, 229);
+				background-color: rgba(30, 136, 229, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-zhihu"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://twitter.com/nexmoe"
+			target="_blank"
+			mdui-tooltip="{content: 'Twitter'}"
+			style="
+				color: rgb(59, 151, 239);
+				background-color: rgba(59, 151, 239, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-twitter"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://nexmoe.com/atom.xml"
+			target="_blank"
+			mdui-tooltip="{content: 'RSS'}"
+			style="
+				color: rgb(247, 132, 34);
+				background-color: rgba(247, 132, 34, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-rss"
+			></i> </a
+		>
+	</div>
+</div>
+
+        
+            
+            
+
+        
+            
+            
+        
+            
+            
+            
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章归档</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+
+        
+            
+            
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">最新文章</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/30/%E5%88%A9%E7%94%A8github%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A/">利用github搭建图床</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/29/%E5%88%A9%E7%94%A8github%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2/">利用github搭建hexo博客</a>
+          </li>
+        
+          <li>
+            <a href="/2023/07/29/%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E6%90%AD%E5%BB%BA/">代理服务器的搭建</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+        
+            
+            <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-link">
+		<ul>
+        
+            <li>
+                <a href="https://xiaoshu.app/" target="_blank" >
+                    <img src="https://xsm.nexmoe.com/images/Infinite/Snipaste_2022-05-18_20-46-50.png" alt="李醒醒"></img>
+                    <p>李醒醒</p>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https://nexmoe.com/" target="_blank" >
+                    <img src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/avatar.png" alt="一步一脚印"></img>
+                    <p>一步一脚印</p>
+                </a>
+            </li>
+        
+		</ul>
+    </div>
+</div>
+<style>
+.nexmoe-widget-wrap .nexmoe-link ul li a {
+    text-align : center;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a img {
+    max-width : 100%;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a p {
+    margin: 10px 0;
+}
+</style>
+
+        
+    </aside>
+    <div class="nexmoe-copyright">
+        &copy; 2023 John Doe
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href="https://beian.miit.gov.cn/">鄂ICP备2020018486号</a>
+<br><a target="_blank" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral">
+<img src="https://i.dawnlab.me/c0268c1e6cfd0863d6ba35be1575941a.png" width="150px"></a>
+
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+    <div class="nexmoe-post">
+  <article>
+    
+        <div class="nexmoe-post-cover"> 
+            <img src="https://i.dawnlab.me/b5a7e61560facdd5b8aa9683fce147d7.png" alt="利用github搭建图床" loading="lazy">
+            <h1>利用github搭建图床</h1>
+        </div>
+    
+    
+    <div class="nexmoe-post-meta">
+    <div class="nexmoe-rainbow">
+        <a class="nexmoefont icon-calendar-fill">2023年07月30日</a>
+        
+        
+    </div>
+    
+    
+    
+    
+    
+</div>
+
+    <h1 id="利用github搭建图床"><a href="#利用github搭建图床" class="headerlink" title="利用github搭建图床"></a>利用github搭建图床</h1><h2 id="一、前期准备"><a href="#一、前期准备" class="headerlink" title="一、前期准备"></a>一、前期准备</h2><blockquote>
+<p>（1）所需软件：node.js、PicGo、typora。<br>（2）一个github账号。</p>
+</blockquote>
+<h2 id="二、图床的概念"><a href="#二、图床的概念" class="headerlink" title="二、图床的概念"></a>二、图床的概念</h2><h3 id="1、什么是图床"><a href="#1、什么是图床" class="headerlink" title="1、什么是图床"></a>1、什么是图床</h3><blockquote>
+<p>图床是互联网中存储图片的空间。<br>举个例子：假设你在微博分享一张图片，你的粉丝可以通过互联网看到你分享的图片，那么他是去访问你的手机的相册吗？其实不是的，你分享图片，也就是把图片上传到微博的服务器，微博将为你生成一个独一无二的访问链接，这个链接指向的空间其实就是图床。</p>
+</blockquote>
+<h3 id="2、为什么需要图床"><a href="#2、为什么需要图床" class="headerlink" title="2、为什么需要图床"></a>2、为什么需要图床</h3><blockquote>
+<p>接触图床的人通常都是一些热爱在网上分享博客的人，使用图床的人通常采用Markdown的方式去编辑文字。我们都知道现在通常流行两种方式编辑文字：</p>
+<ul>
+<li><p>富文本编辑，Word就是其中非常具有代表性的，文字的各种格式都是通过交互按钮设置的，这时候需要频繁的鼠标配合操作。这种方式操作渐变，但是对于大量编辑工作的文字工作者，双手离开键盘使用鼠标其实是一种负担。</p>
+</li>
+<li><p>Markdown编辑，是一种通过Markdown标记语言去规定格式的纯文本编辑方式。这种方式使得文字工作者专注于文字，而非格式，双手可以彻底的解放鼠标，大大提高了效率。还有一个优点就是，Markdown比富文本编辑方式更加具有通用性，word的文字整篇复制到有道云笔记格式会出现差异，这也是富文本编辑的巨大缺陷。</p>
+</li>
+</ul>
+</blockquote>
+<h2 id="三、操作步骤、"><a href="#三、操作步骤、" class="headerlink" title="三、操作步骤、"></a>三、操作步骤、</h2><h3 id="1、安装软件"><a href="#1、安装软件" class="headerlink" title="1、安装软件"></a>1、安装软件</h3><blockquote>
+<p>（1）PicGo安装步骤</p>
+</blockquote>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301357651.png" alt="image-20230730135710162" data-caption="image-20230730135710162" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301357375.png" alt="image-20230730135743334" data-caption="image-20230730135743334" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301358687.png" alt="image-20230730135807538" data-caption="image-20230730135807538" loading="lazy"></p>
+<blockquote>
+<p>（2）typora安装步骤。</p>
+</blockquote>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301359345.png" alt="image-20230730135901180" data-caption="image-20230730135901180" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301359043.png" alt="image-20230730135929035" data-caption="image-20230730135929035" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301359640.png" alt="image-20230730135943599" data-caption="image-20230730135943599" loading="lazy"></p>
+<blockquote>
+<p>（3）node.js安装步骤<br>默认安装即可，一直下一步直到完成，可适当修改自己的安装路径。</p>
+</blockquote>
+<h3 id="2、PicGo的配置"><a href="#2、PicGo的配置" class="headerlink" title="2、PicGo的配置"></a>2、PicGo的配置</h3><blockquote>
+<p>（1）关闭没必要的服务。</p>
+</blockquote>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301405070.png" alt="image-20230730140551050" data-caption="image-20230730140551050" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301406231.png" alt="image-20230730140609301" data-caption="image-20230730140609301" loading="lazy"></p>
+<blockquote>
+<p>（2）在github中创建一个新的存储库，用来存放图片。</p>
+</blockquote>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301426837.png" alt="image-20230730142605517" data-caption="image-20230730142605517" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301407712.png" alt="image-20230730140731486" data-caption="image-20230730140731486" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301408839.png" alt="image-20230730140809861" data-caption="image-20230730140809861" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301408075.png" alt="image-20230730140831802" data-caption="image-20230730140831802" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301408549.png" alt="image-20230730140852360" data-caption="image-20230730140852360" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301410804.png" alt="image-20230730141009095" data-caption="image-20230730141009095" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301410010.png" alt="image-20230730141039918" data-caption="image-20230730141039918" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301411096.png" alt="image-20230730141100024" data-caption="image-20230730141100024" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301411588.png" alt="image-20230730141117477" data-caption="image-20230730141117477" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301411891.png" alt="image-20230730141136754" data-caption="image-20230730141136754" loading="lazy"></p>
+<h3 id="3、Typora的配置"><a href="#3、Typora的配置" class="headerlink" title="3、Typora的配置"></a>3、Typora的配置</h3><blockquote>
+<p>（1）typora中的图片上传设置。</p>
+</blockquote>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301412248.png" alt="image-20230730141248239" data-caption="image-20230730141248239" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301417916.png" alt="image-20230730141758967" data-caption="image-20230730141758967" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301428574.png" alt="image-20230730142829256" data-caption="image-20230730142829256" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301419810.png" alt="image-20230730141905771" data-caption="image-20230730141905771" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301419581.png" alt="image-20230730141925498" data-caption="image-20230730141925498" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301419168.png" alt="image-20230730141941027" data-caption="image-20230730141941027" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://raw.githubusercontent.com/02Lixingxing/images/main/202307301420812.png" alt="image-20230730142028526" data-caption="image-20230730142028526" loading="lazy"></p>
+
+    <p><img src="https://i.dawnlab.me/53a8c7cf3ad77a0f0a456ce2c6afe88a.png" loading="lazy"></p>
+
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>本文作者：</strong>John Doe<br>
+        <strong>本文链接：</strong><a href="http://example.com/2023/07/30/%E5%88%A9%E7%94%A8github%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A/" title="http:&#x2F;&#x2F;example.com&#x2F;2023&#x2F;07&#x2F;30&#x2F;%E5%88%A9%E7%94%A8github%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2023&#x2F;07&#x2F;30&#x2F;%E5%88%A9%E7%94%A8github%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+   
+    
+</div>
+  
+  
+    <script async src="/js/copy-codeblock.js?v=1690700022210"></script>
+  
+
+  
+      <div class="nexmoe-post-footer">
+          请在你的配置文件中设置 slotComment
+
+      </div>
+  
+</div>
+</div>
+        <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%A9%E7%94%A8github%E6%90%AD%E5%BB%BA%E5%9B%BE%E5%BA%8A"><span class="toc-number">1.</span> <span class="toc-text">利用github搭建图床</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87"><span class="toc-number">1.1.</span> <span class="toc-text">一、前期准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%9B%BE%E5%BA%8A%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">1.2.</span> <span class="toc-text">二、图床的概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E5%9B%BE%E5%BA%8A"><span class="toc-number">1.2.1.</span> <span class="toc-text">1、什么是图床</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%9B%BE%E5%BA%8A"><span class="toc-number">1.2.2.</span> <span class="toc-text">2、为什么需要图床</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4%E3%80%81"><span class="toc-number">1.3.</span> <span class="toc-text">三、操作步骤、</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.3.1.</span> <span class="toc-text">1、安装软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81PicGo%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">1.3.2.</span> <span class="toc-text">2、PicGo的配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81Typora%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">1.3.3.</span> <span class="toc-text">3、Typora的配置</span></a></li></ol></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+    </div>
+    <div id="nexmoe-search-space">
+	<div class="search-container">
+		<div class="search-header">
+			<div class="search-input-container">
+				<input
+					class="search-input"
+					type="text"
+					placeholder="搜索"
+					oninput="sinput();"
+				/>
+			</div>
+			<a class="search-close" onclick="sclose();">×</a>
+		</div>
+		<div class="search-body"></div>
+	</div>
+</div>
+
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
